@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Library Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+  
+        #book-catalog {
+            margin: 20px auto;
+            max-width: 90%;
+            padding: 20px;
+            background-color: lightgoldenrodyellow;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: black;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid greenyellow;
+            text-align: left;
+        }
+
+        th {
+            background-color: yellow;
+            text-align: left;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: lightgoldenrodyellow;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: red;
+            color: white;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;color: #04AA6D;"><b>Library Management System</b></h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class='active' href="/book">Available Books</a>
+        <a href="/LOGIN_STYLE">Login</a>
+    </div>
+<marquee style="color: goldenrod;background-color: #04AA6D;"><a href="/LOGIN_STYLE" style="color: black;"><b><b>If you
+                want to borrow a book then click here.</b></b></a></a>
+</marquee>
+    <div id="book-catalog">
+        <h2 style="text-align: center;color: #04AA6D;">Available Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publication Year</th>
+                    <th>ISBN</th>
+                </tr>
+            </thead>
+            <tbody id="book-catalog-data">
+                {% for book in books %}
+                <tr>
+                    <td>{{book.book_id}}</td>
+                    <td style="text-align: left;">{{ book.book_title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.publication_year }}</td>
+                    <td>{{ book.ISBN }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

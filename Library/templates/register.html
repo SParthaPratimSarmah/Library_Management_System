@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Registration Page</title>
+    <style>
+        #userTypeSelect,
+        #userTypeSelect1 {
+            display: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: red;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            color: #04AA6D;
+        }
+
+        form {
+            margin: 0 auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: lightgoldenrodyellow;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/register">Registration Page</a>
+    </div>
+
+    <h1>Registration Form</h1>
+
+<form action="/register" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="email">Email ID:</label><br>
+        <input type="text" id="email" name="email" required><br><br>
+        <label for="phone_number">Phone Number:</label><br><br>
+        <input type="phone" id="phone" name="phone" required><br><br>
+        <div class="radio-container">
+            <label style="color: black;"><input type="radio" name="userType" value="admin"
+                    onclick="toggleSelectList('admin')"> Admin</label>
+            <label style="color: black;"><input type="radio" name="userType" value="student"
+                    onclick="toggleSelectList('student')"> Student</label>
+        </div><br><br>
+
+        <div id="userTypeSelect">
+            <label for="userTypeStudent">Select Options:</label><br>
+            <select id="userTypeStudent" name="userTypeStudent">
+                <option value="" disabled selected>Choose</option>
+                <option value="M.Tech CSE(1st Sem)">M.Tech CSE(1st Sem)</option>
+                <option value="M.Tech CSE(3rd Sem)">M.Tech CSE(3rd Sem)</option>
+                <option value="M.Tech ECE(1st Sem)">M.Tech ECE(1st Sem)</option>
+                <option value="M.Tech ECE(3rd Sem)">M.Tech ECE(3rd Sem)</option>
+                <option value="phd">Phd</option>
+                <option value="B.Tech(1st Sem)">B.Tech(1st Sem)</option>
+                <option value="B.Tech(3rd Sem)">B.Tech(3rd Sem)</option>
+                <option value="B.Tech(5th Sem)">B.Tech(5th Sem)</option>
+                <option value="B.Tech(7th Sem)">B.Tech(7th Sem)</option>
+            </select><br><br>
+        </div>
+
+        <div id="userTypeSelect1">
+            <label for="userTypeAdmin">Select Options:</label><br>
+            <select id="userTypeAdmin" name="userTypeAdmin">
+                <option value="" disabled selected>Choose</option>
+                <option value="prof">Prof.</option>
+                <option value="assistantProf">Assistant Prof.</option>
+                <option value="director">Director</option>
+                <option value="librarian">Librarian</option>
+            </select><br><br>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function toggleSelectList(userType) {
+            var userTypeSelect = document.getElementById('userTypeSelect');
+            var userTypeSelect1 = document.getElementById('userTypeSelect1');
+            var userTypeSelectStudent = document.getElementById('userTypeStudent');
+            var userTypeSelectAdmin = document.getElementById('userTypeAdmin');
+
+            if (userType === 'student') {
+                userTypeSelect.style.display = 'block';
+                userTypeSelect1.style.display = 'none';
+                userTypeSelectStudent.required = true;
+                userTypeSelectAdmin.required = false;
+            } else if (userType === 'admin') {
+                userTypeSelect.style.display = 'none';
+                userTypeSelect1.style.display = 'block';
+                userTypeSelectStudent.required = false;
+                userTypeSelectAdmin.required = true;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

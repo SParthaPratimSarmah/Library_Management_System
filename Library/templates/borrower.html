@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Library Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        #book-catalog {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th,
+        td {
+            text-align: left;
+        }
+
+        th:first-child,
+        td:first-child {
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: lightgoldenrodyellow;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: red;
+            color: white;
+        }
+         #book-catalog {
+            margin: 20px auto;
+            max-width: 90%;
+            padding: 20px;
+            background-color: lightgoldenrodyellow;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid greenyellow;
+            text-align: left;
+        }
+
+        th {
+            background-color: yellow;
+            text-align: left;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1 style="text-align: center; color: #04AA6D;"><b>Library Management System - Borrower Information</b></h1>
+    <div class="user-info">
+        <span style="color: white; text-align: center;">
+            <h3>Welcome, {{ username }} | Position: {{ user_type }}</h3>
+        </span>
+    </div>
+    <div class="topnav">
+        <a href="/adminlogin">Available Books</a>
+        <a class='active' href="/borrower">Borrower Information</a>
+        <a href="/transaction">Transaction History</a>
+        <a href="/add_book">Add Books</a>
+        <a href="/logout" style="text-align: left;">Logout</a>
+    </div>
+
+
+
+<div id="book-catalog">
+    <h2 style="text-align: center; color: #04AA6D;">Borrower Information</h2>
+    <table style="text-align: center;">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Email ID</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, email, phone in distinct_data %}
+            <tr>
+                <td>{{ username }}</td>
+                <td>{{ email }}</td>
+                <td>{{ phone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- ... rest of your HTML ... -->
+
+
+<script>
+    function fetchBorrowerData() {
+        fetch('/get_borrower_data/')  // Change the URL to match your Flask route for fetching borrower data
+            .then(response => response.json())
+            .then(data => {
+                const borrowerData = document.getElementById('borrower-data');
+                borrowerData.innerHTML = '';
+
+                data.forEach(borrower => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${borrower.userName}</td>
+                        <td>${borrower.Email_id}</td>
+                        <td>${borrower.Phone_number}</td>
+                    borrowerData.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchBorrowerData);
+</script>
+
+</body>
+
+</html>
+
+
+</body>
+
+</html>
+
+</body>
+
+</html>

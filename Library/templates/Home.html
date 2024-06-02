@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>library management system</title>
+
+  <style>
+    ::selection {
+      background: transparent;
+    }
+
+    h4 {
+      font-size: 26px;
+      line-height: 1px;
+      font-family: 'Amatic SC', cursive !important;
+    }
+
+    .color1 {
+      color: #1BBC9B;
+      /* MOUNTAIN MEADOW */
+    }
+
+    .color2 {
+      color: #C0392B;
+      /* TALL POPPY */
+    }
+
+    .card {
+      color: black;
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      width: 300px;
+      height: 400px;
+      background: green;
+      transition: 1s;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .card:before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #91f591;
+      transform-origin: bottom;
+      transform: skewX(-45deg);
+    }
+
+    .card:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -5px;
+      width: 5px;
+      height: 100%;
+      background: #61f7c0;
+      transform-origin: left;
+      transform: skewY(-45deg);
+    }
+
+    .card .imgBox {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-origin: left;
+      transition: .7s;
+    }
+
+    .card .bark {
+      position: absolute;
+      background: #77f551;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: .7s;
+    }
+
+    .card .imgBox img {
+      min-width: 250px;
+      max-height: 400px;
+    }
+
+    .card:hover .imgBox {
+      transform: rotateY(-135deg);
+    }
+
+    .card:hover .bark {
+      opacity: 1;
+      transition: .6s;
+      box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
+    }
+
+    .card .details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      padding: 0 0 0 10px;
+      z-index: -1;
+      margin-top: 70px;
+    }
+
+    .card .details p {
+      font-size: 15px;
+      line-height: 5px;
+      transform: rotate(-10deg);
+      padding: 0 0 0 20px;
+    }
+
+    .card .details h4 {
+      text-align: center;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .info-section {
+      padding: 20px;
+      color: white;
+      background-color: rgb(60, 53, 53);
+      text-align: center;
+    }
+
+    .box {
+      background-color: rgba(0, 0, 255, 0.1);
+      /* Adjust alpha for the desired transparency */
+      padding: 20px;
+      width: 50%;
+      margin: 0 auto;
+      text-align: center;
+      border-radius: 15px;
+      /* Adjust the radius as needed for more or less rounded corners */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      /* Adding a subtle box-shadow */
+    }
+
+
+    .book-catalog-section {
+      padding: 20px;
+      color: black;
+    }
+
+    .login-section {
+      padding: 20px;
+      color: white;
+      background-color: #333;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: black;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: red;
+      color: white;
+    }
+
+    form {
+      border: 3px solid #f1f1f1;
+    }
+
+    input[type=text],
+    input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .cancelbtn {
+      width: auto;
+      padding: 10px 18px;
+      background-color: #f44336;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    span.psw {
+      float: right;
+      padding-top: 16px;
+    }
+
+    .radio-container {
+      padding: 16px;
+    }
+
+    .radio-container label {
+      margin-right: 20px;
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+      span.psw {
+        display: block;
+        float: none;
+      }
+
+      .cancelbtn {
+        width: 100%;
+      }
+    }
+    .card2 {
+      color: black;
+      position: absolute;
+      top: 5%;
+      left: 55%; /* Adjust left position to place it on the left side */
+      width: 300px;
+      height: 400px;
+      background: orange; /* Change background color */
+      transition: 1s;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card2:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .card2:before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #f7a35c; /* Change skew color */
+      transform-origin: bottom;
+      transform: skewX(-45deg);
+    }
+
+    .card2:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -5px;
+      width: 5px;
+      height: 100%;
+      background: #f39c12; /* Change skew color */
+      transform-origin: left;
+      transform: skewY(-45deg);
+    }
+
+    .card2 .imgBox {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-origin: left;
+      transition: .7s;
+    }
+
+    .card2 .bark {
+      position: absolute;
+      background: #e74c3c; /* Change bark color */
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: .7s;
+    }
+
+    .card2 .imgBox img {
+      min-width: 250px;
+      max-height: 400px;
+    }
+
+    .card2:hover .imgBox {
+      transform: rotateY(-135deg);
+    }
+
+    .card2:hover .bark {
+      opacity: 1;
+      transition: .6s;
+      box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
+    }
+
+    .card2 .details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      padding: 0 0 0 10px;
+      z-index: -1;
+      margin-top: 70px;
+    }
+
+    .card2 .details p {
+      font-size: 15px;
+      line-height: 5px;
+      transform: rotate(-10deg);
+      padding: 0 0 0 20px;
+    }
+
+    .card2 .details h4 {
+      text-align: center;
+    }
+    .card3 {
+      color: black;
+      position: absolute;
+      top: 50%;
+      right: 80%; /* Adjust left position to place it on the left side */
+      width: 300px;
+      height: 400px;
+      background: lightgoldenrodyellow; /* Change background color */
+      transition: 1s;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card3:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .card3:before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #f7a35c; /* Change skew color */
+      transform-origin: bottom;
+      transform: skewX(-45deg);
+    }
+
+    .card3:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -5px;
+      width: 5px;
+      height: 100%;
+      background: #f39c12; /* Change skew color */
+      transform-origin: left;
+      transform: skewY(-45deg);
+    }
+
+    .card3 .imgBox {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-origin: left;
+      transition: .7s;
+    }
+
+    .card3 .bark {
+      position: absolute;
+      background:yellow; /* Change bark color */
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: .7s;
+    }
+
+    .card3 .imgBox img {
+      min-width: 250px;
+      max-height: 400px;
+    }
+
+    .card3:hover .imgBox {
+      transform: rotateY(-135deg);
+    }
+
+    .card3:hover .bark {
+      opacity: 1;
+      transition: .6s;
+      box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
+    }
+
+    .card3 .details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      padding: 0 0 0 10px;
+      z-index: -1;
+      margin-top: 70px;
+    }
+
+    .card3 .details p {
+      font-size: 15px;
+      line-height: 5px;
+      transform: rotate(-10deg);
+      padding: 0 0 0 20px;
+    }
+
+    .card3 .details h4 {
+      text-align: center;
+    }
+    .card-section {
+      position: absolute;
+      top: 50%;
+      width: 40%; /* Adjust the width as needed */
+      height: 400px;
+      transition: 1s;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card1-section {
+      left: 1%; /* Adjust left position for the first card section */
+    }
+
+    .card2-section {
+      right: 1%; /* Adjust right position for the second card section */
+    }
+     .card3-section {
+      right: 1%; /* Adjust right position for the second card section */
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center;color: #04AA6D;"><b>Library Management System</b></h1>
+  <div class="topnav">
+    <a class="active" href="/">Home</a>
+    <a href="/book">Book Catalog</a>
+    <a href="/LOGIN_STYLE">Login</a>
+  </div>
+  <marquee style="color: goldenrod;background-color: #04AA6D;">
+    <a href="/LOGIN_STYLE" style="color: black;">
+      <b><b>If you want to borrow a book then click here.</b></b>
+    </a>
+  </marquee>
+<section class="card-section card1-section">
+  <div class="card">
+    <div class="imgBox">
+      <div class="bark"></div>
+      <img src="static/back.png" alt="Background Image">
+    </div>
+    <div class="details">
+      <h4 class="color1">About US </h4><br>
+      <pre></pre><b>We are dedicated to providing an <br>
+      enriching reading experience for all.<br>
+    Discover our extensive book catalog, carefully curated to cater to various interests and age groups.<br><p></p>
+    <pre style="text-align: center;color: #61f7c0;">Thnank You</pre> 
+    </div>
+  </div>
+</section>
+
+<!-- Second card section -->
+<section class="card-section card2-section">
+  <div class="card2">
+    <div class="imgBox">
+      <div class="bark"></div>
+      <img src="static/contact.png" alt="Background Image for Card2">
+    </div>
+    <div class="details">
+      <h4 class="color2">Contact Us</h4>
+      <pre> <b>Email id:</b>
+      (a) libraryone@pps.ac.in
+      (b) librarytwo@pps.ac.in
+      <pre> <b>Phone Number:</b>
+      (a)0123456987
+      (b)987654123</pre>
+    </div>
+  </div>
+</section>
+
+<section class="card-section card3-section">
+  <div class="card3">
+    <div class="imgBox">
+      <div class="bark"></div>
+      <img src="static/Developer.png" alt="Background Image for Card2">
+    </div>
+    <div class="details">
+      <h4 class="color2">Developed By</h4>
+      <pre> Partha Pratim Sarmah</b>
+      M.tech CSE(1st Sem),IIITG
+      <b>Email id: 
+      partha.sarmah23m@iiitg.ac.in
+    </div>
+  </div>
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Library Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 5px 10px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .cancelbtn {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        #book-catalog {
+            margin: 20px auto;
+            max-width: 90%;
+            padding: 20px;
+            background-color: lightgoldenrodyellow;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid greenyellow;
+            text-align: left;
+        }
+
+        th {
+            background-color: yellow;
+            text-align: left;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: lightgoldenrodyellow;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;color: #04AA6D;"><b>Library Management System</b></h1>
+    <div class="user-info" data-username="{{ session['username'] }}" data-email="{{ session['email'] }}"
+        data-phone="{{ session['phone'] }}">
+        <span style="color: white;text-align: center;">
+            <h3>Welcome, {{ session['username'] }} | Position: Student</h3>
+        </span>
+    </div>
+    <div class="topnav">
+        <a class='active' href="/login">Available Books</a>
+        <a href="/borrowed_book_by_user">borrowed book</a>
+        <a href="/logout" style="text-align: left;">Logout</a>
+    </div>
+
+    <div id="book-catalog">
+        <h2 style="text-align: center;color: #04AA6D;">Available Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publication Year</th>
+                    <th>ISBN</th>
+                    <th>Total No of Book (in library)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="book-catalog-data">
+                {% for book in books %}
+                <tr>
+                    <td>{{book.book_id}}</td>
+                    <td style="text-align: left;">{{ book.book_title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.publication_year }}</td>
+                    <td>{{ book.ISBN }}</td>
+                    <td style="text-align: center;">{{ book.total_book }}</td>
+
+                    <td>
+                        <form action="/borrow__1" method="post">
+                            <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                            <input type="hidden" name="username" value="{{ session['username'] }}">
+                            <input type="hidden" name="email" value="{{ session['email'] }}">
+                            <input type="hidden" name="phone" value="{{ session['phone'] }}">
+                            <input type="hidden" name="formattedDateTime" value="{{ formattedDateTime }}">
+                            <button type="submit" class="borrow-button"
+                                data-book-id="{{ book.book_id }}">Borrow</button>
+
+                        </form>
+                        <form action="/return" method="post">
+                            <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                            <input type="hidden" name="username" value="{{ session['username'] }}">
+                            <input type="hidden" name="email" value="{{ session['email'] }}">
+                            <input type="hidden" name="phone" value="{{ session['phone'] }}">
+                            <input type="hidden" name="formattedDateTime" value="{{ formattedDateTime }}">
+                            <button type="submit" class="return-button" data-book-id="{{ book.book_id }}" style="background-color: #f44336;">Return</button> 
+                        
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function borrowBook(bookId) {
+            console.log('Borrowing book with ID:', bookId);
+
+            const userDiv = document.querySelector('.user-info');
+            const username = userDiv.getAttribute('data-username');
+            const email = userDiv.getAttribute('data-email');
+            const phone = userDiv.getAttribute('data-phone');
+            const formattedDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Book borrowed successfully.');
+                        const borrowButton = document.querySelector(`button[data-book-id="${bookId}"]`);
+                        borrowButton.disabled = true;
+                    } else {
+                        console.error('Error borrowing the book:', xhr.status);
+                    }
+                }
+            };
+
+            xhr.open('POST', `/borrow__1`);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ bookId, username, email, phone, formattedDateTime }));
+        }
+        
+               
+</script>
+
+<script>
+    function returnBook(bookId) {
+        console.log('Returning book with ID:', bookId);
+
+        const userDiv = document.querySelector('.user-info');
+        const username = userDiv.getAttribute('data-username');
+        const email = userDiv.getAttribute('data-email');
+        const phone = userDiv.getAttribute('data-phone');
+        const formattedDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const return_datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log('Book borrowed successfully.');
+                    const borrowButton = document.querySelector(`button[data-book-id="${bookId}"]`);
+                    borrowButton.disabled = true;
+                } else {
+                    console.error('Error borrowing the book:', xhr.status);
+                }
+            }
+        };
+
+        xhr.open('POST', `/return`);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ bookId, username, email, phone, formattedDateTime,return_datetime }));
+    }
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Library Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        #book-catalog {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th,
+        td {
+            text-align: left;
+        }
+
+        th:first-child,
+        td:first-child {
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color:lightgoldenrodyellow;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: red;
+            color: white;
+        }
+         #book-catalog {
+            margin: 20px auto;
+            max-width: 90%;
+            padding: 20px;
+            background-color: lightgoldenrodyellow;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #book-catalog h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid greenyellow;
+            text-align: left;
+        }
+
+        th {
+            background-color: yellow;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;color: #04AA6D;"><b>Library Management System</b></h1>
+    <div class="user-info">
+        <span style="color: white;text-align: center;">
+            <h3>Welcome, {{ session['username'] }} | Position: Admin</h3>
+        </span>
+    </div>
+    <div class="topnav">
+        
+        <!-- Update the route to match the Flask app route -->
+        <a  href="/adminlogin">Available Books</a>
+        <a href="/borrower">Borrower Information</a>
+        <a class="active" href="/transaction">Transection History</a>
+        <a href="/add_book">Add Books</a>
+        <a href="/logout" style="text-align: left;">Logout</a>
+    </div>
+
+    <div id="book-catalog">
+        <h2 style="text-align: center;color: #04AA6D;">Transaction History</h2>
+        <table style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Book ID</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Phone Number</th>
+                    <th>Email id</th>
+                </tr>
+            </thead>
+        <!-- ... Existing HTML code ... -->
+        
+        <tbody id="book-catalog-data">
+            {% for entry in transaction_data %}
+            <tr>
+                <td>{{ entry[0] }}</td>
+                <td>{{ entry[1] }}</td>
+                <td>{{ entry[2] }}</td>
+                <td>{{ entry[3] }}</td>
+                <td>{{ entry[4] }}</td>
+                <td>{{ entry[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+
+
+        </table>
+    </div>
+<script>
+    function fetchTransactionHistory() {
+        fetch('/get_transaction_history/')  
+            .then(response => response.json())
+            .then(data => {
+                const bookCatalogData = document.getElementById('book-catalog-data');
+                bookCatalogData.innerHTML = '';
+
+                data.forEach(entry => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                            <td>${entry.userName}</td>
+                            <td>${entry.book_id}</td>
+                            <td>${entry.issue_date}</td>
+                            <td>${entry.return_date}</td>
+                            <td>${entry.Phone_number}</td>
+                            <td>${entry.Email_id}</td>`;
+                    bookCatalogData.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchTransactionHistory);
+</script>
+</body>
+
+</html>
+
+
+
+
+</body>
+
+</html>
+
+</body>
+
+</html>
